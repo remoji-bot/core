@@ -125,7 +125,7 @@ export class Logger {
     const timestamp = now.toISO();
     const color = DEFAULT_COLORS[level];
     const type = ERROR_TYPES[level];
-    const message = `${type} ${timestamp}: ${util.format(content, ...format)}`;
+    const message = `${type} ${timestamp} [${this.namespace}]: ${util.format(content, ...format)}`;
 
     process.stdout.write(color(message + "\n"));
 
