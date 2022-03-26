@@ -1,6 +1,6 @@
 /*
   Remoji - Discord emoji manager bot
-  Copyright (C) 2021 Shino <shinotheshino@gmail.com>.
+  Copyright (C) 2022 Memikri <memikri1@gmail.com>.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Affero General Public License as published
@@ -19,7 +19,7 @@
 import * as appRoot from "app-root-path";
 import * as szBin from "7zip-bin";
 import * as sz from "node-7z";
-import * as chalk from "chalk";
+import chalk, { ChalkInstance } from "chalk";
 import * as fs from "fs";
 import { DateTime } from "luxon";
 import * as path from "path";
@@ -33,10 +33,10 @@ export enum LogLevel {
 }
 
 const DEFAULT_COLORS = {
-  [LogLevel.VERBOSE]: chalk.hsl(280, 45, 60),
-  [LogLevel.INFO]: chalk.hsl(0, 0, 60),
-  [LogLevel.WARNING]: chalk.hsl(60, 45, 60),
-  [LogLevel.ERROR]: chalk.hsl(0, 45, 60),
+  [LogLevel.VERBOSE]: chalk.hex("#AAAAAA"),
+  [LogLevel.INFO]: chalk.hex("#00AAAA"),
+  [LogLevel.WARNING]: chalk.hex("#FFFF55"),
+  [LogLevel.ERROR]: chalk.hex("#FF5555"),
 };
 
 const ERROR_TYPES = {
@@ -47,7 +47,7 @@ const ERROR_TYPES = {
 };
 
 export interface LoggerOptions {
-  colorsHSL?: Record<LogLevel, [h: number, s: number, l: number]>;
+  colors?: Record<LogLevel, `#${string}`>;
   logDir?: string;
 }
 
@@ -56,16 +56,16 @@ export interface LoggerOptions {
  * for regular compression of old log files.
  */
 export class Logger {
-  readonly colors: Readonly<Record<LogLevel, chalk.Chalk>>;
+  readonly colors: Readonly<Record<LogLevel, ChalkInstance>>;
   readonly dir: string;
 
   protected static isArchiving = false;
 
   protected constructor(readonly namespace: string, options?: LoggerOptions) {
-    if (options?.colorsHSL) {
+    if (options?.colors) {
       this.colors = Object.fromEntries(
-        Object.entries(options.colorsHSL).map(([level, hsl]) => [level, chalk.hsl(...hsl)]),
-      ) as Record<LogLevel, chalk.Chalk>;
+        Object.entries(options.colors).map(([level, hex]) => [level, chalk.hex(hex)]),
+      ) as Record<LogLevel, ChalkInstance>;
     } else {
       this.colors = DEFAULT_COLORS;
     }

@@ -1,6 +1,6 @@
 /*
   Remoji - Discord emoji manager bot
-  Copyright (C) 2021 Shino <shinotheshino@gmail.com>.
+  Copyright (C) 2022 Memikri <memikri1@gmail.com>.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Affero General Public License as published
