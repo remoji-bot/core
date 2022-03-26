@@ -19,7 +19,8 @@
 import * as appRoot from "app-root-path";
 import * as szBin from "7zip-bin";
 import * as sz from "node-7z";
-import chalk, { ChalkInstance } from "chalk";
+import * as chalk from "chalk";
+import { Chalk } from "chalk";
 import * as fs from "fs";
 import { DateTime } from "luxon";
 import * as path from "path";
@@ -56,7 +57,7 @@ export interface LoggerOptions {
  * for regular compression of old log files.
  */
 export class Logger {
-  readonly colors: Readonly<Record<LogLevel, ChalkInstance>>;
+  readonly colors: Readonly<Record<LogLevel, Chalk>>;
   readonly dir: string;
 
   protected static isArchiving = false;
@@ -65,7 +66,7 @@ export class Logger {
     if (options?.colors) {
       this.colors = Object.fromEntries(
         Object.entries(options.colors).map(([level, hex]) => [level, chalk.hex(hex)]),
-      ) as Record<LogLevel, ChalkInstance>;
+      ) as Record<LogLevel, Chalk>;
     } else {
       this.colors = DEFAULT_COLORS;
     }
